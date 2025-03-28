@@ -1,0 +1,42 @@
+{
+  "name": "@cloudbeaver/plugin-data-viewer-result-trace-details",
+  "type": "module",
+  "sideEffects": [
+    "src/**/*.css",
+    "src/**/*.scss",
+    "public/**/*"
+  ],
+  "version": "0.1.0",
+  "description": "",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rimraf --glob dist",
+    "lint": "eslint ./src/ --ext .ts,.tsx",
+    "validate-dependencies": "core-cli-validate-dependencies"
+  },
+  "dependencies": {
+    "@cloudbeaver/core-blocks": "workspace:*",
+    "@cloudbeaver/core-di": "workspace:*",
+    "@cloudbeaver/core-localization": "workspace:*",
+    "@cloudbeaver/core-sdk": "workspace:*",
+    "@cloudbeaver/core-utils": "workspace:*",
+    "@cloudbeaver/plugin-data-grid": "workspace:*",
+    "@cloudbeaver/plugin-data-viewer": "workspace:*",
+    "mobx": "^6",
+    "mobx-react-lite": "^4",
+    "react": "^19",
+    "react-dom": "^19",
+    "tslib": "^2"
+  },
+  "devDependencies": {
+    "@cloudbeaver/core-cli": "workspace:*",
+    "@cloudbeaver/tsconfig": "workspace:*",
+    "@types/react": "^19",
+    "typescript": "^5",
+    "typescript-plugin-css-modules": "^5"
+  }
+}

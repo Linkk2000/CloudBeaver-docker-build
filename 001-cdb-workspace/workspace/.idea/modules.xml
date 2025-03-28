@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/CloudbeaverTool.iml" filepath="$PROJECT_DIR$/.idea/CloudbeaverTool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cloudbeaver0.iml" filepath="$PROJECT_DIR$/.idea/cloudbeaver0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../dbeaver/plugins/plugins.iml" filepath="$PROJECT_DIR$/../../dbeaver/plugins/plugins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/workspace.iml" filepath="$PROJECT_DIR$/.idea/workspace.iml" />
+    </modules>
+  </component>
+</project>

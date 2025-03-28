@@ -1,0 +1,40 @@
+{
+  "name": "@cloudbeaver/core-settings",
+  "type": "module",
+  "sideEffects": [
+    "src/**/*.css",
+    "src/**/*.scss",
+    "public/**/*"
+  ],
+  "version": "0.1.0",
+  "description": "",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rimraf --glob dist",
+    "lint": "eslint ./src/ --ext .ts,.tsx",
+    "test": "core-cli-test",
+    "validate-dependencies": "core-cli-validate-dependencies"
+  },
+  "dependencies": {
+    "@cloudbeaver/core-di": "workspace:*",
+    "@cloudbeaver/core-executor": "workspace:*",
+    "@cloudbeaver/core-localization": "workspace:*",
+    "@cloudbeaver/core-utils": "workspace:*",
+    "mobx": "^6",
+    "tslib": "^2"
+  },
+  "devDependencies": {
+    "@cloudbeaver/core-cli": "workspace:*",
+    "@cloudbeaver/core-executor": "workspace:*",
+    "@cloudbeaver/tests-runner": "workspace:*",
+    "@cloudbeaver/tsconfig": "workspace:*",
+    "@jest/globals": "^29",
+    "@types/jest": "^29",
+    "typescript": "^5"
+  }
+}

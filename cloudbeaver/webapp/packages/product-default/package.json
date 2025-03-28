@@ -1,0 +1,54 @@
+{
+  "name": "@cloudbeaver/product-default",
+  "type": "module",
+  "sideEffects": [
+    "src/**/*.ts",
+    "src/**/*.scss",
+    "public/**/*",
+    "src/**/*.css"
+  ],
+  "version": "25.0.2",
+  "description": "CloudBeaver Community",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./*"
+  },
+  "browserslist": [
+    "extends @cloudbeaver/browserslist-config"
+  ],
+  "scripts": {
+    "build": "rimraf --glob lib && yarn workspaces foreach -Ap --include '@cloudbeaver/core-sdk' run gql:gen && yarn tsc -b",
+    "bundle": "yarn build && vite build --mode production",
+    "dev": "yarn build && concurrently -P -k \"yarn workspaces foreach -Ap --include '@cloudbeaver/core-sdk' run gql:gen:dev\" \"vite {@}\"",
+    "lint": "eslint ./src/ --ext .ts,.tsx",
+    "version:set": "yarn core-cli-set-version",
+    "validate-dependencies": "core-cli-validate-dependencies"
+  },
+  "dependencies": {
+    "@cloudbeaver/core-browser": "workspace:*",
+    "@cloudbeaver/plugin-sso": "workspace:*",
+    "@cloudbeaver/product-base": "workspace:*",
+    "@cloudbeaver/product-default-impl": "workspace:*",
+    "react": "^19",
+    "react-dom": "^19",
+    "reflect-metadata": "^0",
+    "tslib": "^2",
+    "vite": "^6"
+  },
+  "product": {
+    "name": "CloudBeaver Community"
+  },
+  "devDependencies": {
+    "@cloudbeaver/browserslist-config": "workspace:*",
+    "@cloudbeaver/core-cli": "workspace:*",
+    "@cloudbeaver/tsconfig": "workspace:*",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^9",
+    "rimraf": "^6",
+    "sass-embedded": "^1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

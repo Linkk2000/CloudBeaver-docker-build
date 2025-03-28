@@ -1,0 +1,55 @@
+{
+  "name": "cloudbeaver-ce",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "../common-react",
+    "packages/*"
+  ],
+  "resolutions": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "react": "^19",
+    "react-dom": "^19",
+    "mobx": "^6",
+    "mobx-react-lite": "^4"
+  },
+  "scripts": {
+    "test": "core-cli-test",
+    "clear": "rimraf -g 'packages/*/{dist,lib}'",
+    "lint": "eslint",
+    "validate-dependencies": "core-cli-validate-dependencies './packages/*/'",
+    "add-plugin": "core-cli-add-plugin",
+    "check-license": "core-cli-check-license",
+    "version:set": "yarn workspaces foreach -Ap --include '@cloudbeaver/product-*' run version:set",
+    "postinstall": "[ -z $CI ] && yarn lefthook install || true"
+  },
+  "devDependencies": {
+    "@cloudbeaver/core-cli": "workspace:*",
+    "@cloudbeaver/eslint-config": "workspace:*",
+    "@dbeaver/prettier-config": "workspace:*",
+    "@testing-library/dom": "^10",
+    "@testing-library/jest-dom": "^6",
+    "@testing-library/react": "^16",
+    "@testing-library/user-event": "^14",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^9",
+    "eslint": "^9.20.1",
+    "lefthook": "^1",
+    "mobx": "^6",
+    "mobx-react-lite": "^4",
+    "msw": "^2",
+    "path-browserify": "^1",
+    "prettier": "^3.5.1",
+    "react": "^19",
+    "react-dom": "^19",
+    "reakit": "^1",
+    "reflect-metadata": "^0",
+    "rimraf": "^6",
+    "typescript": "^5.7.3",
+    "typescript-plugin-css-modules": "^5"
+  },
+  "packageManager": "yarn@4.6.0"
+}

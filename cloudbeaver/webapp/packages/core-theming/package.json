@@ -1,0 +1,50 @@
+{
+  "name": "@cloudbeaver/core-theming",
+  "type": "module",
+  "sideEffects": [
+    "src/**/*.css",
+    "src/**/*.scss",
+    "public/**/*"
+  ],
+  "version": "0.1.0",
+  "description": "",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./*"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rimraf --glob dist",
+    "lint": "eslint ./src/ --ext .ts,.tsx",
+    "test": "core-cli-test",
+    "validate-dependencies": "core-cli-validate-dependencies"
+  },
+  "dependencies": {
+    "@cloudbeaver/core-di": "workspace:*",
+    "@cloudbeaver/core-events": "workspace:*",
+    "@cloudbeaver/core-executor": "workspace:*",
+    "@cloudbeaver/core-localization": "workspace:*",
+    "@cloudbeaver/core-settings": "workspace:*",
+    "@cloudbeaver/core-utils": "workspace:*",
+    "mobx": "^6",
+    "tslib": "^2"
+  },
+  "devDependencies": {
+    "@cloudbeaver/core-cli": "workspace:*",
+    "@cloudbeaver/tsconfig": "workspace:*",
+    "@fontsource/roboto": "^5",
+    "@material/button": "^4",
+    "@material/checkbox": "^4",
+    "@material/elevation": "^4",
+    "@material/layout-grid": "^4",
+    "@material/radio": "^4",
+    "@material/ripple": "^4",
+    "@material/switch": "^4",
+    "@material/theme": "^4",
+    "@material/typography": "^4",
+    "@types/jest": "^29",
+    "typescript": "^5",
+    "typescript-plugin-css-modules": "^5"
+  }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WorkspaceSettings">
+    <project name="dbeaver" path="$PROJECT_DIR$/../../dbeaver">
+      <vcs id="Git" remoteUrl="https://github.com/dbeaver/dbeaver.git" />
+    </project>
+    <project name="DBeaver LibSQL JDBC Project" path="$PROJECT_DIR$/../../dbeaver-jdbc-libsql">
+      <vcs id="Git" remoteUrl="https://github.com/dbeaver/dbeaver-jdbc-libsql.git" />
+    </project>
+    <project name="DBeaver Common dependencies" path="$PROJECT_DIR$/../../dbeaver-common">
+      <vcs id="Git" remoteUrl="https://github.com/dbeaver/dbeaver-common.git" />
+    </project>
+    <option name="workspace" value="true" />
+  </component>
+</project>

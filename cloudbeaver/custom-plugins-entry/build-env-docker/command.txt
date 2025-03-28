@@ -1,0 +1,21 @@
+docker run -it --rm \
+  -v "$(pwd)/cloudbeaver/deploy:/build/cloudbeaver/deploy" \
+  -v "$(pwd)/build-logs:/var/log/cloudbeaver" \
+  cloudbeaver-runtime:latest \
+  2>&1 | tee build.log
+
+
+docker run -it --rm \
+  -v "$(pwd)/cloudbeaver/deploy:/build/cloudbeaver/deploy" \
+  -v "$(pwd)/build-logs:/var/log/cloudbeaver" \
+  --entrypoint /bin/bash \
+  cloudbeaver-runtime:latest
+
+
+docker build --no-cache -t cloudbeaver-runtime:latest -f cloudbeaver/custom-plugins-entry/build-env-docker/Dockerfile.build .
+
+
+docker build --no-cache -t cloudbeaver-base:1.0.0-base -f cloudbeaver/custom-plugins-entry/build-env-docker/Dockerfile.base .
+
+
+docker run -d --name cloudbeaver -p 8978:8978 -v ./workspace:/opt/cloudbeaver/workspace dbeaver/cloudbeaver:dev

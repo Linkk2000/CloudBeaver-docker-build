@@ -1,0 +1,78 @@
+# Data transfer queries
+
+type DataTransferProcessorInfo {
+    id: ID!
+    name: String
+    description: String
+    fileExtension: String
+    appFileExtension: String
+    appName: String
+    order: Int!
+    icon: String
+    properties: [ ObjectPropertyInfo ]
+    isBinary: Boolean
+    isHTML: Boolean
+}
+
+input DataTransferOutputSettingsInput {
+    insertBom: Boolean
+    encoding: String
+    timestampPattern: String
+    compress: Boolean
+    fileName: String
+}
+
+type DataTransferOutputSettings {
+    insertBom: Boolean!
+    encoding: String!
+    timestampPattern: String!
+    compress: Boolean!
+}
+
+type DataTransferDefaultExportSettings {
+    outputSettings : DataTransferOutputSettings!
+    supportedEncodings: [String!]!
+}
+
+input DataTransferParameters {
+    # Processor ID
+    processorId: ID!
+    # General settings:
+    #   - openNewConnection: opens new database connection for data transfer task
+    settings: Object
+    # Processor properties. See DataTransferProcessorInfo.properties
+    processorProperties: Object!
+    # Consumer properties. See StreamConsumerSettings
+    outputSettings: DataTransferOutputSettingsInput
+    # Data filter settings
+    filter: SQLDataFilter
+}
+
+extend type Query {
+
+    # Available transfer processors
+    dataTransferAvailableStreamProcessors: [ DataTransferProcessorInfo! ]!
+
+    # Available transfer processors for import file
+    dataTransferAvailableImportStreamProcessors: [ DataTransferProcessorInfo! ]!
+
+    dataTransferDefaultExportSettings: DataTransferDefaultExportSettings!
+
+    dataTransferExportDataFromContainer(
+        projectId: ID,
+        connectionId: ID!,
+        containerNodePath: ID!,
+        parameters: DataTransferParameters!
+    ): AsyncTaskInfo!
+
+    dataTransferExportDataFromResults(
+        projectId: ID,
+        connectionId: ID!,
+        contextId: ID!,
+        resultsId: ID!,
+        parameters: DataTransferParameters!
+    ): AsyncTaskInfo!
+
+    dataTransferRemoveDataFile(dataFileId: String!): Boolean @deprecated(reason: "25.0.1")
+
+}

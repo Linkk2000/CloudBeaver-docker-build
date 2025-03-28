@@ -1,0 +1,10 @@
+.p {
+  line-height: 2;
+  white-space: pre-wrap;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
+.note {
+  composes: theme-typography--body2 from global;
+}

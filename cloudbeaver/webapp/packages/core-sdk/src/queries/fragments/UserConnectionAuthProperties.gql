@@ -1,0 +1,14 @@
+fragment UserConnectionAuthProperties on ObjectPropertyInfo {
+  id
+  displayName
+  description
+  category
+  dataType
+  value
+  validValues
+  defaultValue
+  length
+  features
+  required
+  order
+}

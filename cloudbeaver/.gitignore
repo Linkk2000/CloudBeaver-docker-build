@@ -1,0 +1,50 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.nar
+*.ear
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# web
+dist/
+
+## IDEA configs
+
+*.iml
+/idea/
+
+
+## Mac OS
+.DS_Store
+
+## tests
+server/test/io.cloudbeaver.test.platform/workspace/.data/
+
+## Eclipse configs
+
+.project
+.classpath
+.settings/
+
+## Eclipse PDE
+*.product.launch
+
+workspace-dev-ce/
+deploy/cloudbeaver
+server/**/target
+apps/**/target
+osgi-cache/

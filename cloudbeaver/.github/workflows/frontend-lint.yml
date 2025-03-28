@@ -1,0 +1,46 @@
+name: Frontend Lint
+
+on:
+  # Allows you to reuse workflows by referencing their YAML files
+  workflow_call:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: ./cloudbeaver/webapp
+
+    steps:
+      - name: Checkout cloudbeaver
+        uses: actions/checkout@v4
+        with:
+          path: cloudbeaver
+
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: "yarn"
+          cache-dependency-path: "./cloudbeaver/webapp/yarn.lock"
+
+      # - run: yarn install --immutable
+      #   working-directory: ./cloudbeaver/common-typescript
+
+      # - run: yarn install --immutable
+      #   working-directory: ./cloudbeaver/common-react
+
+      - run: |
+          yarn install --immutable
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          FILES=$(git diff --name-only 'origin/${{ github.base_ref }}' ${{ github.sha }} -- . | sed 's|^webapp/||')
+          if [ -n "$FILES" ]; then
+            yarn lint --pass-on-no-patterns --no-error-on-unmatched-pattern $FILES
+          else
+            echo "No files to lint"
+          fi

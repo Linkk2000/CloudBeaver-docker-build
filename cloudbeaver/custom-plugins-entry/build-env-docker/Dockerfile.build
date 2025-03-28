@@ -1,0 +1,62 @@
+# Dockerfile.build
+FROM cloudbeaver-base:1.0.0-base
+
+# 强制使用 root 用户,避免挂载时权限不足而出错
+USER root
+
+
+# 设置元数据
+LABEL org.opencontainers.image.authors="new technical team" \
+      org.opencontainers.image.title="CloudBeaver Runtime" \
+      org.opencontainers.image.description="Production-ready CloudBeaver database management platform" \
+      org.opencontainers.image.version="latest" \
+      org.opencontainers.image.source="https://github.com/dbeaver/cloudbeaver" \
+      org.opencontainers.image.vendor="GB Corp" \
+      org.opencontainers.image.licenses="Apache-2.0"
+
+# 环境变量设置
+ENV LOG_DIR=/var/log/cloudbeaver \
+    BUILD_DIR=/build/cloudbeaver/deploy
+
+# 创建日志目录
+RUN mkdir -p ${LOG_DIR} && \
+    echo "[INFO] Created log directory: ${LOG_DIR}" && \
+    chmod 777 ${LOG_DIR}
+
+# 复制项目文件（带进度显示）
+COPY --chmod=0755 cloudbeaver /build/cloudbeaver/
+COPY --chmod=0755 dbeaver /build/dbeaver/
+COPY --chmod=0755 dbeaver-common /build/dbeaver-common/
+COPY --chmod=0755 dbeaver-jdbc-libsql /build/dbeaver-jdbc-libsql/
+
+# 设置脚本权限并验证
+RUN echo "[INFO] Setting execute permissions for deploy scripts" && \
+    find /build/cloudbeaver/deploy -name "*.sh" -exec chmod +x {} \; && \
+    echo "[SUCCESS] Script permissions updated" && \
+    ls -l /build/cloudbeaver/deploy/*.sh | awk '{print "[VERIFY]", $0}'
+
+# 构建日志配置
+RUN echo "[INFO] Build environment summary:" && \
+    java -version 2>&1 | sed 's/^/[JAVA] /' && \
+    mvn -v | sed 's/^/[MAVEN] /' && \
+    node -v | sed 's/^/[NODE] /' && \
+    yarn -v | sed 's/^/[YARN] /'
+
+# 设置工作目录和入口点
+WORKDIR ${BUILD_DIR}
+VOLUME ["${BUILD_DIR}"]
+# 删除 cloudbeaver 目录
+RUN rm -rf cloudbeaver
+ENTRYPOINT ["./build.sh"]
+
+# 容器启动日志配置
+CMD ["-DlogDir=${LOG_DIR}"]
+
+# 在项目根目录执行（强制重建避免缓存问题）
+#  docker build --no-cache -t cloudbeaver-runtime:latest -f cloudbeaver/custom-plugins-entry/build-env-docker/Dockerfile.build .
+# 在项目根目录执行（带实时同步和日志输出）
+# docker run -it --rm \
+#   -v "$(pwd)/cloudbeaver/deploy:/build/cloudbeaver/deploy" \
+#   -v "$(pwd)/build-logs:/var/log/cloudbeaver" \
+#   cloudbeaver-runtime:latest \
+#   2>&1 | tee build.log

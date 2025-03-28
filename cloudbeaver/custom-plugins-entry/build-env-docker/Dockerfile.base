@@ -1,0 +1,64 @@
+# Dockerfile.base
+FROM openjdk:21-jdk-slim
+# 此Dockerfile 需要在外部互联网中构建，应为其依赖外部镜像及url
+# docker build -t cloudbeaver-base:1.0.0-base -f Dockerfile.base .
+# 设置镜像元数据（遵循 Open Containers 标准）
+LABEL org.opencontainers.image.authors="new technical team" \
+      org.opencontainers.image.title="CloudBeaver Build Base" \
+      org.opencontainers.image.description="Base image with Java 21, Node.js 20.x, Maven 3.9.6 for CloudBeaver builds" \
+      org.opencontainers.image.version="1.0.0-base" \
+      org.opencontainers.image.licenses="Apache-2.0"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 定义可配置的构建参数
+ARG NODE_VERSION=20.x
+# ARG YARN_VERSION=1.22.*
+ARG YARN_VERSION=4.6.0
+ARG MAVEN_VERSION=3.9.6
+ARG MAVEN_URL=https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+
+WORKDIR /build
+
+# 安装命令
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    wget \
+    gnupg \
+    git \
+    ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# 安装 Node.js 、 Yarn 和 Corepack
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - && \
+    apt-get update && \
+    # 安装 Node.js 并包含 corepack
+    apt-get install -y --no-install-recommends nodejs=20.* && \
+    # 清理旧版 Yarn（如果存在）
+    apt-get purge -y yarn && \
+    # 启用 corepack 并准备指定 Yarn 版本
+    corepack enable && \
+    corepack prepare yarn@${YARN_VERSION} --activate && \
+    # 验证安装
+    echo "=== Version Check ===" && \
+    node -v | grep "v20" && \
+    npm -v | grep "^10" && \
+    yarn -v | grep "${YARN_VERSION}" && \
+    # 清理缓存
+    rm -rf /var/lib/apt/lists/* /tmp/*
+# 安装 Maven
+RUN curl -fsSL ${MAVEN_URL} -o /tmp/maven.tar.gz && \
+    tar -xzf /tmp/maven.tar.gz -C /opt && \
+    ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven && \
+    rm /tmp/maven.tar.gz
+
+ENV PATH="/opt/maven/bin:${PATH}"
+
+# 验证工具链
+RUN echo "=== Environment Verification ===" && \
+    java -version && \
+    mvn -v | grep 'Apache Maven' && \
+    node -v | grep 'v20' && \
+    yarn -v && \
+    echo "==============================="

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "include": [],
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": [
+      "DOM",
+      "DOM.AsyncIterable",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "jsx": "react-jsx",
+    "allowArbitraryExtensions": true,
+    "module": "nodenext",
+    "skipLibCheck": true,
+    "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": false,
+    "verbatimModuleSyntax": true,
+    "checkJs": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    /* Source maps */
+    "sourceMap": true,
+    /* project references */
+    "declarationMap": true,
+    /* optimization */
+    "disableReferencedProjectLoad": true,
+    "disableSolutionSearching": true,
+    "types": [
+      "@dbeaver/tsconfig/vite-env.d.ts"
+    ],
+    "plugins": [
+      {
+        // https://github.com/mrmckeb/typescript-plugin-css-modules/issues/222
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "goToDefinition": true
+        }
+      }
+    ]
+  }
+}

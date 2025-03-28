@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+
+<plugin>
+
+    <extension point="io.cloudbeaver.service">
+        <service id="auth" label="User authentication" description="User authentication services" class="io.cloudbeaver.service.auth.WebServiceBindingAuth">
+
+        </service>
+        <service id="reverse.configurator" label="Reverse Proxy Configurator" description="Reverse proxy configurator"
+                 class="io.cloudbeaver.service.auth.ReverseProxyConfigurator">
+        </service>
+    </extension>
+    <extension point="io.cloudbeaver.handler">
+        <sessionHandler id="RPSessionHandler" class="io.cloudbeaver.service.auth.RPSessionHandler"/>
+    </extension>
+    <extension point="io.cloudbeaver.handler">
+        <servletHandler id="LocalServletHandler" class="io.cloudbeaver.service.auth.local.LocalServletHandler"/>
+        <sessionHandler id="LocalSessionHandler" class="io.cloudbeaver.service.auth.local.LocalSessionHandler"/>
+    </extension>
+
+    <!--TODO: uncomment after frontend migration-->
+    <!--    <extension point="org.jkiss.dbeaver.ws.event.handler">-->
+<!--        <eventHandler class="io.cloudbeaver.service.auth.handler.WSAuthSessionEventHandler">-->
+<!--            <topic id="cb_session_auth"/>-->
+<!--        </eventHandler>-->
+<!--    </extension>-->
+
+    <extension point="org.jkiss.dbeaver.ws.event">
+        <event topicId="cb_session" id="cb_web_session_auth"
+               class="io.cloudbeaver.service.auth.handler.WebSessionAuthEvent"/>
+    </extension>
+</plugin>

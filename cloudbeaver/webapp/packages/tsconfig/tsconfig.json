@@ -1,0 +1,35 @@
+{
+  "extends": "@dbeaver/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "DOM.AsyncIterable",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "jsx": "react-jsx",
+    "allowArbitraryExtensions": true,
+    "useDefineForClassFields": false, // leads to "TypeError: Cannot redefine property requestInfo" in QueryDataSource.ts
+    /* legacy decorators */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    // project references
+    "incremental": true,
+    "declaration": true,
+    /* optimization */
+    "disableReferencedProjectLoad": true,
+    "disableSolutionSearching": true,
+    "types": [
+      "@cloudbeaver/tsconfig/globals.d.ts"
+    ],
+    "plugins": [
+      {
+        // https://github.com/mrmckeb/typescript-plugin-css-modules/issues/222
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "goToDefinition": true
+        }
+      }
+    ]
+  }
+}

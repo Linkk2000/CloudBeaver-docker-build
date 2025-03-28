@@ -1,0 +1,16 @@
+mutation setConnectionNavigatorSettings(
+  $projectId: ID!
+  $connectionId: ID!
+  $settings: NavigatorSettingsInput!
+  $includeAuthProperties: Boolean!
+  $includeNetworkHandlersConfig: Boolean!
+  $includeCredentialsSaved: Boolean!
+  $includeAuthNeeded: Boolean!
+  $includeProperties: Boolean!
+  $includeProviderProperties: Boolean!
+  $customIncludeOptions: Boolean!
+) {
+  connection: setConnectionNavigatorSettings(projectId: $projectId, id: $connectionId, settings: $settings) {
+    ...DatabaseConnection
+  }
+}

@@ -1,0 +1,190 @@
+enum AuthCredentialEncryption {
+    none,
+    plain,
+    hash
+}
+
+enum AuthStatus {
+    SUCCESS,
+    IN_PROGRESS,
+    ERROR
+}
+
+type AuthCredentialInfo {
+    id: ID!
+    displayName: String!
+    description: String
+
+    # This field must be shown in admin panel
+    admin: Boolean!
+    # This field must be shown in login form
+    user: Boolean!
+    # This field can be used as user identifier
+
+    identifying: Boolean!
+    possibleValues: [String]
+    encryption: AuthCredentialEncryption
+}
+
+type AuthProviderConfiguration {
+    id: ID!
+    displayName: String!
+    disabled: Boolean!
+    authRoleProvided: Boolean
+
+    iconURL: String
+    description: String
+
+    # URL to external authentication service.
+    # If specified then it is external auhentication provider (SSO).
+    # Otherwise authLogin function must be called.
+    signInLink: String
+    signOutLink: String
+    metadataLink: String
+    acsLink: String
+    entityIdLink: String @since(version: "24.2.1")
+}
+
+type AuthProviderCredentialsProfile {
+    id: String
+    label: String
+    description: String
+    credentialParameters: [AuthCredentialInfo!]!
+}
+
+type AuthProviderInfo {
+    id: ID!
+    label: String!
+    icon: ID
+    description: String
+
+    defaultProvider: Boolean!
+    trusted: Boolean!
+    private: Boolean!
+    authHidden: Boolean! @since(version: "24.2.4")
+    supportProvisioning: Boolean!
+
+    # Configurable providers must be configured first. See configurations field.
+    configurable: Boolean!
+    # Federated providers means authorization must occur asynchronously through redirects.
+    federated: Boolean!
+
+    # Provider configurations (applicable only if configurable=true)
+    configurations: [AuthProviderConfiguration!]
+
+    templateConfiguration: AuthProviderConfiguration! @since(version: "24.1.2")
+
+    credentialProfiles: [AuthProviderCredentialsProfile!]!
+
+    requiredFeatures: [String!]!
+
+    required: Boolean!
+}
+
+type AuthInfo {
+    redirectLink: String
+
+
+    authId: String @deprecated
+
+    authStatus: AuthStatus!
+
+    userTokens: [UserAuthToken!]
+}
+
+
+type LogoutInfo @since(version: "23.3.3") {
+    redirectLinks: [String!]!
+}
+
+type UserAuthToken {
+    # Auth provider used for authorization
+    authProvider: ID!
+
+    # Auth provider configuration ID
+    authConfiguration: ID
+
+    # Authorization time
+    loginTime: DateTime!
+
+    # User identity (aka user name) specific to auth provider
+    userId: String!
+
+    # User display name specific to auth provider
+    displayName: String!
+
+    # Optional login message
+    message: String
+
+    # Auth origin
+    origin: ObjectOrigin!
+
+}
+
+type UserInfo {
+    # User unique identifier
+    userId: ID!
+
+    # Human readable display name. It is taken from the first auth provider which was used for user login.
+    displayName: String
+    # User auth role ID. Optional.
+    authRole: ID
+
+    # All authentication tokens used during current session
+    authTokens: [UserAuthToken!]!
+
+    linkedAuthProviders: [String!]!
+
+    # User profile properties map
+    metaParameters: Object!
+    # User configuration parameters
+    configurationParameters: Object!
+    # User teams
+    teams: [UserTeamInfo!]!
+
+    @since(version: "24.2.3")
+    isAnonymous: Boolean!
+}
+
+type UserTeamInfo {
+    teamId: String!
+    teamName: String!
+    teamRole: String
+}
+
+extend type Query {
+
+    # Authorize user using specified auth provider. If linkUser=true then associates new
+    # If forceSessionsLogout=true then kill another sessions
+    authLogin(provider: ID!, configuration: ID, credentials: Object, linkUser: Boolean, forceSessionsLogout: Boolean): AuthInfo!
+
+    authUpdateStatus(authId: ID!, linkUser: Boolean): AuthInfo!
+
+    # Logouts user. If provider not specified then all authorizations are revoked from session.
+    @deprecated
+    authLogout(provider: ID, configuration: ID): Boolean
+
+    # Same as #authLogout, but returns additional information
+    @since(version: "23.3.3")
+    authLogoutExtended(provider: ID, configuration: ID): LogoutInfo!
+
+    # Active user information. null is no user was authorized within session
+    activeUser: UserInfo
+
+    authProviders: [AuthProviderInfo!]!
+
+    authChangeLocalPassword(oldPassword: String!, newPassword: String!): Boolean!
+
+    listUserProfileProperties: [ObjectPropertyInfo!]!
+
+}
+
+
+extend type Mutation {
+
+    # Set user config parameter. If parameter value is null then removes the parameter
+    setUserConfigurationParameter(name: String!, value: Object): Boolean!
+    # Updates user preferences
+    setUserPreferences(preferences: Object!): UserInfo! @since(version: "24.0.1")
+
+}

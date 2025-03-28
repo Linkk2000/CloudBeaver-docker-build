@@ -1,0 +1,59 @@
+{
+  "extends": "@cloudbeaver/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "composite": true
+  },
+  "references": [
+    {
+      "path": "../core-blocks"
+    },
+    {
+      "path": "../core-cli"
+    },
+    {
+      "path": "../core-data-context"
+    },
+    {
+      "path": "../core-di"
+    },
+    {
+      "path": "../core-dialogs"
+    },
+    {
+      "path": "../core-events"
+    },
+    {
+      "path": "../core-executor"
+    },
+    {
+      "path": "../core-localization"
+    },
+    {
+      "path": "../core-routing"
+    },
+    {
+      "path": "../core-utils"
+    },
+    {
+      "path": "../core-view"
+    }
+  ],
+  "include": [
+    "__custom_mocks__/**/*",
+    "src/**/*",
+    "src/**/*.json",
+    "src/**/*.css",
+    "src/**/*.scss",
+    "../core-blocks/src/AuthenticationProvider.tsx",
+    "../core-blocks/src/useAuthenticationAction.ts",
+    "../core-blocks/src/AuthenticationProviderLoader.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "lib/**/*",
+    "dist/**/*"
+  ]
+}

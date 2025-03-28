@@ -1,0 +1,15 @@
+mutation createConnection(
+  $projectId: ID!
+  $config: ConnectionConfig!
+  $includeAuthProperties: Boolean!
+  $includeNetworkHandlersConfig: Boolean!
+  $includeCredentialsSaved: Boolean!
+  $includeAuthNeeded: Boolean!
+  $includeProperties: Boolean!
+  $includeProviderProperties: Boolean!
+  $customIncludeOptions: Boolean!
+) {
+  connection: createConnection(projectId: $projectId, config: $config) {
+    ...DatabaseConnection
+  }
+}

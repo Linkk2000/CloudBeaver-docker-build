@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Vendor: DBeaver Corp
+Bundle-Name: Cloudbeaver Community Product
+Bundle-SymbolicName: io.cloudbeaver.product.ce;singleton:=true
+Bundle-Version: 25.0.2.qualifier
+Bundle-Release-Date: 20250407
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Require-Bundle: io.cloudbeaver.server.ce
+Automatic-Module-Name: io.cloudbeaver.product.ce
